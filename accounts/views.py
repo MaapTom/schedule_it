@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
+from django.shortcuts import redirect
+from schedule.models import Scheduling
 
 
 def login(request):
@@ -44,9 +46,6 @@ def register(request):
         if hasattr(user, 'contact'):
             user.contact.phone = phone
             user.contact.save()
-
-        # return HttpResponse('Usuario Cadastrado com sucesso !!')
-
         return render(request, 'login.html')
 
 # ----------------------------------------------------------------------------------------------------
@@ -54,5 +53,11 @@ def register(request):
 
 def home(request):
     if request.user.is_authenticated:
-        return render(request, 'home.html')
+        # Isso obtém todos os registros, ajuste conforme necessário
+        schedule_data = Scheduling.objects.all()
+
+        return render(request, 'home.html', {'schedule_data': schedule_data})
     return render(request, 'login.html')
+
+
+# ---------------------------LOGOUT-------------------------------------------------------------------------

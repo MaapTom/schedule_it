@@ -3,87 +3,21 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+    <title>Schedule</title>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/home.css' %}?atualizado=hoje">
+    <link rel="stylesheet" href="{% static 'css/schedule.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<style>
-    .container-table {
-        height: 50vw;
-        overflow-y: auto;
-        border-radius: 0.2em;
-
-    }
-
-    table {
-        border-radius: 0.2em;
-        color: #fff;
-        border-collapse: collapse;
-    }
-
-    th,
-    td {
-        padding: 5px 10px;
-        text-align: center;
-    }
-
-    th {
-        background-color: #007bff;
-
-    }
-
-    table tr:nth-child(odd) {
-        background-color: #87b6e9;
-    }
-
-    table tr:nth-child(even) {
-        background-color: #C3DBF4;
-    }
-
-    table {
-        position: absolute;
-        max-height: 300px;
-        /* Defina a altura máxima desejada */
-        overflow-y: scroll;
-        bottom: 50vh;
-        right: 20%;
-        margin: 20px;
-        margin-top: 50px;
-        /* Adicione margens para ajustar o espaçamento da tabela em relação à borda direita e inferior */
-        border-radius: 0.2;
-        width: 50%;
-        font-family: Source Sans Pro;
-    }
-</style>
 
 <body>
 
     <h1>
         <img src="/static/images/schedule.png" alt="Logo schedule" id="schedule">
     </h1>
-    <div class="container-table">
-        <table>
-            <tr>
-                <th>Hours</th>
-                <th>Day</th>
-                <th>Collaborator</th>
-            </tr>
-            {% for entry in schedule_data %}
-            <tr>
-                <td>{{ entry.get_hours_display }}</td>
-                <td>{{ entry.day }}</td>
-                <td>{{ entry.collaborator }}</td>
-
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-
-
+    
     <nav class="menu-side">
         <div class="btn-expand" onclick="document.querySelector('.menu-side').classList.toggle('show')">
             <i class="bi bi-list"></i>
@@ -104,7 +38,7 @@
                 </li>
 
             </ul>
-            <div class="iten-menu ">
+            <div class="iten-menu">
 
                 <a href="{% url 'login' %}">
                     <span class="icon"><i class="bi bi-power"></i></span>
@@ -117,9 +51,12 @@
 
 
     </nav>
+    <form method="post" action="{% url 'create_scheduling' %}" class="meu-formulario">
+        {% csrf_token %}
+        {{ form.as_p }}
 
-
-
+        <button class="btn" type="submit">Finish</button>
+    </form>
 </body>
 
 </html>
