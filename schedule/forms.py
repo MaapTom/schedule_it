@@ -4,7 +4,7 @@ from .widgets import PhoneFormatWidget
 from .models import Collaborator
 # Importe a classe Scheduling do seu arquivo models.py
 from .models import Scheduling
-
+from django.forms.widgets import DateInput
 
 class CollaboratorForm(forms.ModelForm):
     class Meta:
@@ -27,4 +27,7 @@ class CollaboratorForm(forms.ModelForm):
 class SchedulingForm(forms.ModelForm):
     class Meta:
         model = Scheduling
-        fields = ['collaborator', 'day', 'hours']
+        fields = ['collaborator', 'day', 'hours','service']
+        widgets = {
+            'day': forms.DateInput(attrs={'type': 'date'})
+        }

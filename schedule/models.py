@@ -259,17 +259,9 @@ class Scheduling(models.Model):
 
     # Crie um relacionamento ForeignKey com a classe User
 
-    user = models.ForeignKey(
-
-        User, on_delete=models.CASCADE, verbose_name='Client')
-
-    collaborator = models.ForeignKey(
-
-        Collaborator, on_delete=models.CASCADE, related_name='schedules')
-
-    day = models.DateField(
-        validators=[validate_day], default=date.today)
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Client')
+    collaborator = models.ForeignKey(Collaborator, on_delete=models.CASCADE, related_name='schedules')
+    day = models.DateField(validators=[validate_day], default=date.today)
     HOURS_CHOICES = (
 
         ('1', '8:00'),
@@ -298,12 +290,28 @@ class Scheduling(models.Model):
 
         ('13', '20:00'),
     )
-
-    hours = models.CharField(
-        max_length=10, choices=HOURS_CHOICES, default=1)
+    hours = models.CharField(max_length=10, choices=HOURS_CHOICES, default=1)
+    SERVICE_CHOICES = (
+        ('haircut', 'Corte de Cabelo'),
+        ('beard_trim', 'Barba e Bigode'),
+        ('beard_design', 'Design de Barba'),
+        ('full_beard', 'Barba Completa'),
+        ('hair_treatments', 'Tratamentos Capilares'),
+        ('hair_coloring', 'Coloração de Cabelo'),
+        ('eyebrow_design', 'Design de Sobrancelha'),
+        ('facial_massage', 'Massagens Faciais'),
+        ('skin_care', 'Tratamentos de Pele'),
+        ('hair_cauterization', 'Cauterização de Fios'),
+        ('beard_hydration', 'Hidratação de Barba'),
+        ('sideburn_trim', 'Aparar Costeletas'),
+        ('beard_cauterization', 'Cauterização da Barba'),
+        ('acne_facial_treatment', 'Tratamento de Acne Facial'),
+        ('dark_circle_treatment', 'Tratamento de Olheiras'),
+    )
+    service = models.CharField(max_length=45,choices=SERVICE_CHOICES, default=1)
 
     class Meta:
-        unique_together = ('hours', 'day')
+        unique_together = ('collaborator', 'hours', 'day')
 
     def __str__(self):
         return f'{self.day.strftime("%b %d %Y")} - {self.get_hours_display()} - {self.collaborator}'

@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Source Sans Pro;
+}
+
+body {
+    height: 100vh;
+}
+
+/* Header */
+
+.header-container {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.logo-container {
+    display: block;
+    max-width: 120px;
+}
+
+.logo-container .logo-image {
+    display: block;
+    max-width: 100%;
+}
+
+/* SideBar */
+
+.menu-side {
+    width: 80px;
+    height: 100%;
+    background-color: #343A40;
+    padding: 40px 0 40px 1%;
+    box-shadow: 3px 0 0 #007BFF;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    transition: .2S;
+}
+
+.menu-side:hover {
+    width: 300px;
+
+}
+
+.btn-expand {
+    width: 100%;
+    padding-left: 10px;
+}
+
+.btn-expand>i {
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+ul {
+    height: 100%;
+    list-style-type: none;
+}
+
+ul li.iten-menu:hover {
+    background-color: #9A354A;
+}
+
+ul li.iten-menu {
+    transition: .2s;
+}
+
+.iten-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 20px 4%;
+    display: flex;
+    /* margin-bottom: 10px; */
+    margin-top: 20px;
+    line-height: 40px;
+}
+
+.iten-menu a .txt-link {
+    margin-left: 40px;
+
+}
+
+.iten-menu a .icon>i {
+    font-size: 30px;
+    margin-left: 10px;
+}
+
+.off {
+    margin-top: 500px;
+}
+
+/* Form */
+.title-form {
+    margin: 0 0 16px 0;
+    color: #fff;
+}
+
+.btn {
+    cursor: pointer;
+}

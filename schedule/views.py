@@ -3,6 +3,8 @@ from .forms import SchedulingForm
 # Importe a classe Scheduling do seu arquivo models.py
 from .models import Scheduling
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 
 @login_required
@@ -18,3 +20,8 @@ def create_scheduling(request):
         form = SchedulingForm()
 
     return render(request, 'schedule.html', {'form': form})
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('login')

@@ -3,8 +3,10 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
-from django.shortcuts import redirect
 from schedule.models import Scheduling
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 
 def login(request):
@@ -23,7 +25,16 @@ def login(request):
             return HttpResponse('Usuario ou Senha invalido')
 
 # -------------------------------------------------------------------------
-
+def mgm_erro(request):
+                mensagem = "Já existe esse usuário!!"
+                script = f'''
+                    <script>
+                        alert("{mensagem}");
+                        window.history.back();  
+                    </script>
+                '''
+                return HttpResponse(script)
+            
 
 def register(request):
     if request.method == "GET":
@@ -38,7 +49,7 @@ def register(request):
         user = User.objects.filter(username=username).first()
 
         if user:
-            return HttpResponse('Já existe esse usuario!!')
+            return mgm_erro(request)
 
         user = User.objects.create_user(
             username=username, email=email, password=password, first_name=first_name)
@@ -50,14 +61,21 @@ def register(request):
 
 # ----------------------------------------------------------------------------------------------------
 
-
+@login_required
 def home(request):
     if request.user.is_authenticated:
         # Isso obtém todos os registros, ajuste conforme necessário
         schedule_data = Scheduling.objects.all()
+        user_id = request.user.id
+        user = User.objects.get(pk=user_id)
 
-        return render(request, 'home.html', {'schedule_data': schedule_data})
+        return render(request, 'home.html', {'schedule_data': user})
     return render(request, 'login.html')
 
 
 # ---------------------------LOGOUT-------------------------------------------------------------------------
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('login')

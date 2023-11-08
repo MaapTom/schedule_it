@@ -7,17 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule</title>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/schedule.css' %}">
-    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/schedule.css' %}?05-11-2023">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}?07-11-2023">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="shortcut icon" href="{% static 'images/icon-logo.png' %}" type="image/x-icon">
+
 </head>
 
 <body>
 
-    <h1>
-        <img src="/static/images/schedule.png" alt="Logo schedule" id="schedule">
-    </h1>
-    
+    <header class="header-container">
+        {% if user.is_authenticated %}
+        <p class="name_user">Bem-vindo, {{ user.username }}</p>
+        {% endif %}
+        <a href="{% url 'home' %}" class="logo-container">
+            <img src="../../static/images/logo.svg" class="logo-image" alt="Logomarca Equie Dallas Cabeleireiro">
+        </a>
+    </header>
+
     <nav class="menu-side">
         <div class="btn-expand" onclick="document.querySelector('.menu-side').classList.toggle('show')">
             <i class="bi bi-list"></i>
@@ -33,14 +40,14 @@
                 <li class="iten-menu">
                     <a href="{% url 'create_scheduling' %}">
                         <span class="icon"><i class="bi bi-calendar"></i></span>
-                        <span class="txt-link">Schedule</span>
+                        <span class="txt-link">Agendamentos</span>
                     </a>
                 </li>
 
             </ul>
             <div class="iten-menu">
 
-                <a href="{% url 'login' %}">
+                <a href="{% url 'logout' %}">
                     <span class="icon"><i class="bi bi-power"></i></span>
                     <span class="txt-link">Logout</span>
                 </a>
@@ -52,10 +59,11 @@
 
     </nav>
     <form method="post" action="{% url 'create_scheduling' %}" class="meu-formulario">
+        <h1 class="title-form">Agendar serviços</h1>
         {% csrf_token %}
         {{ form.as_p }}
 
-        <button class="btn" type="submit">Finish</button>
+        <button class="btn" type="submit">Agendar horário</button>
     </form>
 </body>
 

@@ -8,83 +8,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>home</title>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/home.css' %}?atualizado=hoje">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}?07-11-2023">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="shortcut icon" href="{% static 'images/icon-logo.png' %}" type="image/x-icon">
+
 </head>
 <style>
-    .container-table {
-        height: 50vw;
-        overflow-y: auto;
-        border-radius: 0.2em;
 
-    }
-
-    table {
-        border-radius: 0.2em;
-        color: #fff;
-        border-collapse: collapse;
-    }
-
-    th,
-    td {
-        padding: 5px 10px;
-        text-align: center;
-    }
-
-    th {
-        background-color: #007bff;
-
-    }
-
-    table tr:nth-child(odd) {
-        background-color: #87b6e9;
-    }
-
-    table tr:nth-child(even) {
-        background-color: #C3DBF4;
-    }
-
-    table {
-        position: absolute;
-        max-height: 300px;
-        /* Defina a altura máxima desejada */
-        overflow-y: scroll;
-        bottom: 50vh;
-        right: 20%;
-        margin: 20px;
-        margin-top: 50px;
-        /* Adicione margens para ajustar o espaçamento da tabela em relação à borda direita e inferior */
-        border-radius: 0.2;
-        width: 50%;
-        font-family: Source Sans Pro;
-    }
 </style>
 
 <body>
 
-    <h1>
-        <img src="/static/images/schedule.png" alt="Logo schedule" id="schedule">
-    </h1>
-    <div class="container-table">
-        <table>
-            <tr>
-                <th>Hours</th>
-                <th>Day</th>
-                <th>Collaborator</th>
-            </tr>
-            {% for entry in schedule_data %}
-            <tr>
-                <td>{{ entry.get_hours_display }}</td>
-                <td>{{ entry.day }}</td>
-                <td>{{ entry.collaborator }}</td>
+    <header class="header-container">
+        {% if user.is_authenticated %}
+        <p class="name_user">Bem-vindo, {{ user.username }}</p>
+        {% endif %}
+        <a href="{% url 'home' %}" class="logo-container">
+            <img src="../../static/images/logo.svg" class="logo-image" alt="Logomarca Equie Dallas Cabeleireiro">
+        </a>
+    </header>
 
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+    <!-- <div class="slider">
+        <div class="slides"> -->
+    <!-- radio buttons -->
+    <!-- <input type="radio" name="radio-btn" id="radio1">
+            <input type="radio" name="radio-btn" id="radio2">
+            <input type="radio" name="radio-btn" id="radio3"> -->
+    <!-- end radio buttons -->
 
+    <!-- sldie image -->
+    <!-- <div class="slide first">
+                <img src="https://as1.ftcdn.net/v2/jpg/03/56/84/84/1000_F_356848431_3jRfLelpuWfg4wxj2vKH8ZZIKtH6qRIj.jpg"
+                    alt="image 1 " />
+            </div>
+            <div class="slide">
+                <img src="https://cursoeprofissao.com.br/wp-content/uploads/2019/11/barbeiromasculino-1024x640.jpeg"
+                    alt="image 2 " />
+            </div>
+            <div class="slide">
+                <img src="https://i.ytimg.com/vi/mef3ke76SzQ/maxresdefault.jpg" alt="image 3 " />
+            </div> -->
+    <!-- sldie image -->
 
-    <nav class="menu-side">
+    <!-- <div class="navigation-auto">
+                <div class="auto-btn1"></div>
+                <div class="auto-btn2"></div>
+                <div class="auto-btn3"></div>
+
+            </div>
+
+        </div>
+
+        <div class="manual-navigation">
+            <label for="radio1" class="manual-btn"></label>
+            <label for="radio2" class="manual-btn"></label>
+            <label for="radio3" class="manual-btn"></label>
+        </div>
+    </div> -->
+     <nav class="menu-side">
         <div class="btn-expand" onclick="document.querySelector('.menu-side').classList.toggle('show')">
             <i class="bi bi-list"></i>
         </div>
@@ -99,27 +80,48 @@
                 <li class="iten-menu">
                     <a href="{% url 'create_scheduling' %}">
                         <span class="icon"><i class="bi bi-calendar"></i></span>
-                        <span class="txt-link">Schedule</span>
+                        <span class="txt-link">Agendamentos</span>
                     </a>
                 </li>
-
             </ul>
             <div class="iten-menu ">
-
-                <a href="{% url 'login' %}">
+                <a href="{% url 'logout' %}">
                     <span class="icon"><i class="bi bi-power"></i></span>
                     <span class="txt-link">Logout</span>
                 </a>
             </div>
-
         </div>
-
-
-
     </nav>
-
-
+    
+    <main class="main-container">
+        <section class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                    <th>Horários disponíveis</th>
+                    <th>Dia</th>
+                    <th>Colaborador</th>
+                    <th>Serviços</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in user.scheduling_set.all %}
+                    <tr>
+                        <td>{{ entry.get_hours_display }}</td>
+                        <td>{{ entry.day }}</td>
+                        <td>{{ entry.collaborator }}</td>
+                        <td>{{ entry.get_service_display }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
 
 </body>
+<footer>
+    Avenida Casa Grande, 40, São Paulo, SP, Brasil, 03260-000<br>
+    Phone: 11 2704-2211
+</footer>
 
 </html>
